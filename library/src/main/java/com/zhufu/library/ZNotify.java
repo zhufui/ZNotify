@@ -12,6 +12,8 @@ import android.os.Build;
 import android.support.v7.app.NotificationCompat;
 import android.text.TextUtils;
 
+import java.util.List;
+
 /**
  * author  : zhufu
  * email   : zhufui@sina.com
@@ -218,6 +220,29 @@ public class ZNotify {
      */
     public void cancelAll() {
         mNm.cancelAll();
+    }
+
+    /**
+     *  删除通知渠道
+     * @param channelId
+     */
+    public void deleteChannel(String channelId) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            mNm.deleteNotificationChannel(channelId);
+        }
+    }
+
+    /**
+     * 删除所有通知渠道
+     */
+    public void deleteAllChannel() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            List<NotificationChannel> channelList = mNm.getNotificationChannels();
+            for (int i = 0, size = channelList.size(); i < size; i++) {
+                NotificationChannel channel = channelList.get(i);
+                deleteChannel(channel.getId());
+            }
+        }
     }
 
     /**
